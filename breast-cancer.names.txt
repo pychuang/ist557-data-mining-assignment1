@@ -1,0 +1,18 @@
+1. Title: Wisconsin Breast Cancer Database (January 8, 1991)
+
+2. Sources:
+   -- Dr. WIlliam H. Wolberg (physician)
+      University of Wisconsin Hospitals
+      Madison, Wisconsin
+      USA
+   -- Donor: Olvi Mangasarian (mangasarian@cs.wisc.edu)
+      Received by David W. Aha (aha@cs.jhu.edu)
+   -- Date: 15 July 1992
+
+Attribute Information: (class attribute has been moved to last column)
+
+   #  Attribute                     Domain
+   -- -----------------------------------------
+   1. Uniformity of Cell Size       1 - 10
+   2. Uniformity of Cell Shape      1 - 10
+   3. Class:                        (2 for benign, 4 for malignant)
