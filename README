@@ -1,0 +1,23 @@
+# Assignment 1: Decision Trees
+
+1. Decision tree implementation.
+
+1.1. Implement the decision tree classification method. You can use any programming language you are comfortable with. Use the entropy as the criteria to select questions. The stopping threshold is when the number of instances in one node is less than 15. 
+
+1.2. Download this dataset . Run your decision tree algorithm on this dataset. Show the decision tree you built.  Label the questions on the node. Show the distribution of classes (i.e., how many instances in each class) in the leaf node.
+
+2. Evaluate decision trees.
+
+2.1. Apply decision tree package on WINE dataset (download the dataset from this UCI Machine Learning Repository: http://archive.ics.uci.edu/ml/datasets/Wine). We recommend using scikit-learn package (http://scikit-learn.org/stable/index.html). Describe the splitting criteria and stopping criteria you choose to use. Plot the tree built by this tool package.
+
+2.2. Randomly select 80% data instances as training, and the remaining 20% data instances as testing. Change the parameter setting on the stopping criteria. Draw a figure showing the training error and testing error w.r.t. different parameter values.
+
+2.3. Fix the parameter setting. Evaluate the decision tree using 5-fold cross-validation.
+
+2.4. Use two nested layers of 5-fold cross-validation to find the best parameter and evaluate it on the test data. Show the best parameter selected for each round and the corresponding accuracy on the testing data.
+
+3. Apply random forests. Describe your parameter setting. Use 5-fold cross-validation to evaluate the performance.
+
+4. (optional) Apply a boosting method on your dataset and compare the results.
+
+What to submit: (1) For Question 1.1., submit your source code as a zip file (if the source code only has one file, there is no need to zip the file). (2) The answers for all other questions should be included in one PDF (or Word) file. Submit both files to the same Assignment 1 drop box in ANGEL. 
