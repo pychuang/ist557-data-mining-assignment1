@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 import numpy as np
+from sklearn import cross_validation
 from sklearn import tree
 from sklearn.externals.six import StringIO
 import matplotlib.pyplot as plt
@@ -20,31 +21,11 @@ def load_dataset():
 
 def main():
     X, y = load_dataset()
-    print X
-    print y
-    print X.shape, y.shape
-
-    idx = np.arange(X.shape[0])
-    #np.random.seed(13)
-    np.random.shuffle(idx)
-
-    n_samples_train = int(X.shape[0] * 0.8)
-    idx_train = idx[:n_samples_train]
-    idx_test = idx[n_samples_train:]
-
-    X_train = X[idx_train]
-    y_train = y[idx_train]
-    print 'train'
-    print X_train
+    X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2)
+    print 'train:', X_train.shape, y_train.shape
     print y_train
-    print X_train.shape, y_train.shape
-
-    X_test = X[idx_test]
-    y_test = y[idx_test]
-    print 'test'
-    print X_test
+    print 'test:', X_test.shape, y_test.shape
     print y_test
-    print X_test.shape, y_test.shape
 
     parameters = [50, 40, 30, 20, 10, 5, 4, 3, 2, 1]
     train_scores = []
