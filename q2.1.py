@@ -7,15 +7,15 @@ import pydotplus
 
 def load_dataset():
     X = []
-    Y = []
+    y = []
     with open('wine.data') as f:
         for line in f:
             data = line.strip().split(',')
-            sample = [float(x) for x in data[:-1]]
-            label = int(data[-1])
+            label = int(data[0])
+            sample = [float(x) for x in data[1:]]
             X.append(sample)
-            Y.append(label)
-    return np.array(X), np.array(Y)
+            y.append(label)
+    return np.array(X), np.array(y)
 
 
 def export_decision_tree(clf, png_file_name):
@@ -25,16 +25,16 @@ def export_decision_tree(clf, png_file_name):
     graph.write_png(png_file_name)
 
 
-def build_decision_tree(X, Y):
-    clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=15).fit(X, Y)
+def build_decision_tree(X, y):
+    clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=15).fit(X, y)
     export_decision_tree(clf, 'q2.1.png')
 
 
 def main():
-    X, Y = load_dataset()
+    X, y = load_dataset()
     print X
-    print X.shape, Y.shape
-    build_decision_tree(X, Y)
+    print X.shape, y.shape
+    build_decision_tree(X, y)
 
 
 if __name__ == '__main__':
