@@ -2,8 +2,6 @@
 import numpy as np
 from sklearn import cross_validation
 from sklearn import tree
-from sklearn.externals.six import StringIO
-import matplotlib.pyplot as plt
 
 
 def load_dataset():
@@ -21,7 +19,6 @@ def load_dataset():
 
 def main():
     X, y = load_dataset()
-
 
     # 5-fold
     for train_index, test_index in cross_validation.KFold(n=len(X), n_folds=5, shuffle=True):
