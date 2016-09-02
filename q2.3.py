@@ -21,12 +21,11 @@ def load_dataset():
 
 def main():
     X, y = load_dataset()
-    X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2)
 
-    clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=5).fit(X_train, y_train)
+    clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=5)
     # 5-fold
-    score = cross_validation.cross_val_score(clf, X_test, y_test, cv=5)
-    print score
+    scores = cross_validation.cross_val_score(clf, X, y, cv=5)
+    print scores
 
 if __name__ == '__main__':
     main()
