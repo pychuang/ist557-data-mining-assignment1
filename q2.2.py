@@ -7,22 +7,22 @@ import matplotlib.pyplot as plt
 
 def load_dataset():
     X = []
-    Y = []
+    y = []
     with open('wine.data') as f:
         for line in f:
             data = line.strip().split(',')
-            sample = [float(x) for x in data[:-1]]
-            label = int(data[-1])
+            label = int(data[0])
+            sample = [float(x) for x in data[1:]]
             X.append(sample)
-            Y.append(label)
-    return np.array(X), np.array(Y)
+            y.append(label)
+    return np.array(X), np.array(y)
 
 
 def main():
-    X, Y = load_dataset()
+    X, y = load_dataset()
     print X
-    print Y
-    print X.shape, Y.shape
+    print y
+    print X.shape, y.shape
 
     idx = np.arange(X.shape[0])
     #np.random.seed(13)
@@ -33,26 +33,26 @@ def main():
     idx_test = idx[n_samples_train:]
 
     X_train = X[idx_train]
-    Y_train = Y[idx_train]
+    y_train = y[idx_train]
     print 'train'
     print X_train
-    print Y_train
-    print X_train.shape, Y_train.shape
+    print y_train
+    print X_train.shape, y_train.shape
 
     X_test = X[idx_test]
-    Y_test = Y[idx_test]
+    y_test = y[idx_test]
     print 'test'
     print X_test
-    print Y_test
-    print X_test.shape, Y_test.shape
+    print y_test
+    print X_test.shape, y_test.shape
 
     parameters = [50, 40, 30, 20, 10, 5, 4, 3, 2, 1]
     train_scores = []
     test_scores = []
     for mss in parameters:
-        clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=mss).fit(X_train, Y_train)
-        train_score = clf.score(X_train, Y_train)
-        test_score = clf.score(X_test, Y_test)
+        clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=mss).fit(X_train, y_train)
+        train_score = clf.score(X_train, y_train)
+        test_score = clf.score(X_test, y_test)
         train_scores.append(train_score)
         test_scores.append(test_score)
 
