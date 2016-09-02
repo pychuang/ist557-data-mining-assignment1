@@ -2,8 +2,6 @@
 import numpy as np
 from sklearn import cross_validation
 from sklearn import tree
-from sklearn.externals.six import StringIO
-import matplotlib.pyplot as plt
 
 
 def load_dataset():
