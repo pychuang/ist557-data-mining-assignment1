@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 import math
-import pydotplus
+import pydotplus as pydot
 
 class Node(object):
     id_count = 0
@@ -21,33 +21,37 @@ class Node(object):
         labels_count = sorted([(l, labels.count(l)) for l in set(labels)], key=lambda x: x[1], reverse=True)
         self.label = labels_count[0][0]
 
+    def dot_node(self):
+        if self.split_at == None:
+            content_split = ''
+        else:
+            content_split = "X[%d] <= %f\\n" % (self.feature_to_split, self.split_at)
 
-def export_dot_node(parent, node):
-    if node.split_at == None:
-        content_split = ''
-    else:
-        content_split = "X[%d] <= %f\\n" % (node.feature_to_split, node.split_at)
+        labels = [l for d, l in self.data]
+        labels_count = {l: labels.count(l) for l in set(labels)}
 
-    labels = [l for d, l in node.data]
-    labels_count = {l: labels.count(l) for l in set(labels)}
+        content = "%slabel=%s\\nentropy = %f\\nsamples = %d\\nvalue = %s" % (content_split, self.label, self.entropy, len(self.data), labels_count)
+        return pydot.Node(self.id, label=content, shape='box')
 
-    content = "%d [label=\"%slabel=%s\\nentropy = %f\\nsamples = %d\\nvalue = %s\"] ;\n" % (node.id, content_split, node.label, node.entropy, len(node.data), labels_count)
-    if parent:
-        content += "%d -> %d ;\n" % (parent.id, node.id)
+
+def export_dot_node(graph, node):
+    this = node.dot_node()
+    graph.add_node(this)
 
     if node.left:
-        content += export_dot_node(node, node.left)
+        left = export_dot_node(graph, node.left)
+        graph.add_edge(pydot.Edge(this, left))
+
     if node.right:
-        content += export_dot_node(node, node.right)
-    return content
+        right = export_dot_node(graph, node.right)
+        graph.add_edge(pydot.Edge(this, right))
+
+    return this
+
 
 def export_png(root, filename):
-    tree_content = export_dot_node(None, root)
-    content = """digraph Tree {
-node [shape=box] ;
-%s}""" % tree_content
-
-    graph = pydotplus.graph_from_dot_data(content)
+    graph = pydot.Dot(graph_type='digraph')
+    export_dot_node(graph, root)
     graph.write_png(filename)
 
 
