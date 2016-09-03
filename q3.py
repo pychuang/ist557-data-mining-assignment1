@@ -33,7 +33,9 @@ def evaluate(X_train, y_train, X_test, y_test):
                 best_scores = scores
                 best_mss = mss
                 best_criterion = criterion
-    print "Best: criterion: %s\tmin_samples_split = %d\tscores = %s" % (best_criterion, best_mss, best_scores)
+
+    test_scores = cross_validation.cross_val_score(clf, X_test, y_test, cv=5)
+    print "Best: criterion: %s\tmin_samples_split = %d\nbest scores = %s\ntest scores = %s\n" % (best_criterion, best_mss, best_scores, test_scores)
 
 
 def main():
