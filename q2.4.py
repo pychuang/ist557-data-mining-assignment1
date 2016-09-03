@@ -42,7 +42,9 @@ def main():
                 best_score = avg_score
                 best_scores = scores
                 best_mss = mss
-        print "Best: min_samples_split = %d\tscores = %s" % (best_mss, best_scores)
+
+        test_scores = cross_validation.cross_val_score(clf, X_test, y_test, cv=5)
+        print "Best: min_samples_split = %d\nbest scores = %s\ntest scores = %s\n" % (best_mss, best_scores, test_scores)
 
 
 if __name__ == '__main__':
