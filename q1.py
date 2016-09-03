@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 import math
+import pydotplus
 
 class Node(object):
     id_count = 0
@@ -40,14 +41,14 @@ def export_dot_node(parent, node):
         content += export_dot_node(node, node.right)
     return content
 
-def export_dot(root, filename):
+def export_png(root, filename):
     tree_content = export_dot_node(None, root)
     content = """digraph Tree {
 node [shape=box] ;
 %s}""" % tree_content
 
-    with open(filename, 'w') as f:
-        f.write(content)
+    graph = pydotplus.graph_from_dot_data(content)
+    graph.write_png(filename)
 
 
 def entropy(data):
@@ -118,7 +119,7 @@ def main():
     dataset = load_dataset()
     #print dataset
     root = build_dt(dataset)
-    export_dot(root, 'q1.dot')
+    export_png(root, 'q1.png')
 
 
 if __name__ == '__main__':
