@@ -2,18 +2,52 @@
 import math
 
 class Node(object):
+    id_count = 0
 
     def __init__(self, data):
+        self.id = Node.id_count
+        Node.id_count += 1
+
         self.left = None
         self.right = None
         self.feature_to_split = None
         self.split_at = None
+        self.data = data
+        self.entropy = entropy(data)
 
         # leaf node only
-        self.data = data
         labels = [l for d, l in data]
         labels_count = sorted([(l, labels.count(l)) for l in set(labels)], key=lambda x: x[1], reverse=True)
         self.label = labels_count[0][0]
+
+
+def export_dot_node(parent, node):
+    if node.split_at == None:
+        content_split = ''
+    else:
+        content_split = "X[%d] <= %f\\n" % (node.feature_to_split, node.split_at)
+
+    labels = [l for d, l in node.data]
+    labels_count = {l: labels.count(l) for l in set(labels)}
+
+    content = "%d [label=\"%slabel=%s\\nentropy = %f\\nsamples = %d\\nvalue = %s\"] ;\n" % (node.id, content_split, node.label, node.entropy, len(node.data), labels_count)
+    if parent:
+        content += "%d -> %d ;\n" % (parent.id, node.id)
+
+    if node.left:
+        content += export_dot_node(node, node.left)
+    if node.right:
+        content += export_dot_node(node, node.right)
+    return content
+
+def export_dot(root, filename):
+    tree_content = export_dot_node(None, root)
+    content = """digraph Tree {
+node [shape=box] ;
+%s}""" % tree_content
+
+    with open(filename, 'w') as f:
+        f.write(content)
 
 
 def entropy(data):
@@ -29,7 +63,7 @@ def entropy(data):
 
 
 def split_node(node):
-    print 'label', node.label, ':', node.data
+    #print 'label', node.label, ':', node.data
     if len(node.data) < 15:
         return
 
@@ -47,16 +81,17 @@ def split_node(node):
             part1 = [(d, l) for d, l in node.data if d[feature] <= split_at]
             part2 = [(d, l) for d, l in node.data if d[feature] > split_at]
 
-            e = entropy(part1) + entropy(part2)
+            left = Node(part1)
+            right = Node(part2)
+            e = left.entropy + right.entropy
             if not lowest_entropy or e < lowest_entropy:
                 lowest_entropy = e
-                node.left = Node(part1)
-                node.right = Node(part2)
+                node.left = left
+                node.right = right
                 node.feature_to_split = feature
                 node.split_at = split_at
 
-    print 'feature', node.feature_to_split, 'at', node.split_at
-    node.data = None
+    #print 'feature', node.feature_to_split, 'at', node.split_at
     split_node(node.left)
     split_node(node.right)
 
@@ -82,7 +117,8 @@ def load_dataset():
 def main():
     dataset = load_dataset()
     #print dataset
-    build_dt(dataset)
+    root = build_dt(dataset)
+    export_dot(root, 'q1.dot')
 
 
 if __name__ == '__main__':
