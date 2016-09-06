@@ -26,7 +26,7 @@ def main():
     print 'test:', X_test.shape, y_test.shape
     print y_test
 
-    parameters = [50, 40, 30, 20, 10, 5, 4, 3, 2, 1]
+    parameters = xrange(1, 100)
     train_scores = []
     test_scores = []
     for mss in parameters:
