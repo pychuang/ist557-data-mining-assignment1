@@ -20,7 +20,7 @@ def load_dataset():
 def main():
     X, y = load_dataset()
 
-    clf = ensemble.RandomForestClassifier(criterion='entropy', min_samples_split=2)
+    clf = ensemble.RandomForestClassifier(criterion='entropy', min_samples_split=5)
     scores = cross_validation.cross_val_score(clf, X, y, cv=5)
     print scores
 
