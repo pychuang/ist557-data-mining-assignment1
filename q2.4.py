@@ -33,9 +33,9 @@ def main():
         best_scores = None
         best_model = None
 
-        parameters = [50, 40, 30, 20, 10, 5, 4, 3, 2, 1]
+        parameters = xrange(1, 100)
         for mss in parameters:
-            clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=mss)
+            clf = tree.DecisionTreeClassifier(criterion='entropy', min_samples_split=mss).fit(X_train, y_train)
             # 5-fold
             scores = cross_validation.cross_val_score(clf, X_train, y_train, cv=5)
             avg_score = sum(scores)/len(scores)
@@ -45,7 +45,7 @@ def main():
                 best_mss = mss
                 best_model = clf
 
-        test_scores = cross_validation.cross_val_score(best_model, X_test, y_test, cv=5)
+        test_scores = best_model.score(X_test, y_test)
         print "Best: min_samples_split = %d\nbest scores = %s\ntest scores = %s\n" % (best_mss, best_scores, test_scores)
 
 
